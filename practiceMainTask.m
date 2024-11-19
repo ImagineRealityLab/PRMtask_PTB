@@ -17,7 +17,8 @@ saveName = sprintf('PMT_%s.mat',subID);
 
 % Trial numbers and order
 nOri    = length(orientations);
-blocks  = blockStructure(nOri,nOri,1); 
+nRep    = 1; % how often to repeat unique block combinations 
+blocks  = blockStructure(nOri,nOri,nRep); 
 nBlocks = size(blocks,1);
 nTrials = 10; % per block
 trials  = trialStructure(blocks,nTrials); 
