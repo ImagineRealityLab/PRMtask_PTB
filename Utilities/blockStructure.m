@@ -1,12 +1,22 @@
-function [blocks,miniblocks] = blockStructure(nOri,nMB,nRep)
+function trials = blockStructure(nDet,nIma,nRep)
 
-ori = 1:nOri;
+nBlocks = nDet*nIma*nRep;
+nPerRep = nIma*nDet;
+trials  = nan(nBlocks,2);
 
-imaOri = ori(randperm(nOri)); % shuffle which orientation to start with
-%imaOri = reshape(repmat(imaOri,nMB,1),1,nMB*nOri);
-imaOri = repmat(imaOri,1,nRep);
-blocks = imaOri';
-
-perOri = ori(randperm(nOri)); % shuffle which orientation to start with
-perOri = repmat(perOri,1,nRep*nMB);
-miniblocks = perOri';
+for r = 1:nRep
+    
+    idx = (r-1)*nPerRep+1:r*nPerRep;
+    
+    for d = 1:nDet
+        idx2 = (d-1)*nDet+1:d*nDet;
+        trials(idx(idx2),1) = d;
+        for i = 1:nIma
+            trials(idx(idx2(i)),2) = i;
+        end
+    end
+    
+    % shuffle per rep
+    trials(idx,:) = trials(idx(randperm(nPerRep)),:);
+    
+end
